@@ -60,9 +60,7 @@ public class DbContextTest
                 .IgnoreQueryFilters();
             var count = await query.CountAsync();
             
-            // issue: The expected result is 2, but the actual result is 1.
-            // This issue is likely related to the database configuration or query filtering logic.
-            // This test is expected to fail currently and requires further investigation.
+            // The expected result is 2, but the actual result is 1.
             Assert.AreEqual(2, count);
         }
     }

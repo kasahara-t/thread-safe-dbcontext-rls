@@ -1,12 +1,10 @@
 services:
   application:
-    image: mcr.microsoft.com/dotnet/sdk:8.0
-    working_dir: /app/DbContextTest
-    volumes:
-      - .:/app
-    entrypoint: ["dotnet", "test"]
+    build:
+      context: .
+      dockerfile: Dockerfile
     networks:
-      - app-tier
+      - test-tier
     depends_on:
       mssql:
         condition: service_healthy
@@ -17,7 +15,7 @@ services:
       ACCEPT_EULA: Y
       MSSQL_SA_PASSWORD: aYAJX1WhrK2B%6OUXN8MKR_oj
     networks:
-      - app-tier
+      - test-tier
     healthcheck:
       test: |-
         /opt/mssql-tools18/bin/sqlcmd -S 127.0.0.1 -U sa -P "$${MSSQL_SA_PASSWORD}" -Q "SELECT 1" -b -C -N -o /dev/null
@@ -27,4 +25,4 @@ services:
       start_period: 10s
 
 networks:
-  app-tier: {}
+  test-tier:
